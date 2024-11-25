@@ -1,0 +1,64 @@
+int R = 3;  // Right Sensor
+int M = 4;   // Middle Sensor
+int L = 5;  // Left Sensor
+
+void setup()
+{
+  pinMode(13, OUTPUT); // Motor 1 +
+  pinMode(12, OUTPUT); // Motor 2 -
+  pinMode(11, OUTPUT); // Enable 1&2
+  pinMode(10, OUTPUT); // Enable 3&4 
+  pinMode (9, OUTPUT); // Motor 2 -
+  pinMode (8, OUTPUT); // Motor 2 + 
+  pinMode(L, INPUT);   // Sensors
+  pinMode (M, INPUT);  
+  pinMode(R, INPUT);  
+}
+
+void loop()
+{
+  // If the line is in the middle - go foward
+  if((digitalRead(L) == 1) && (digitalRead(M) == 0) && (digitalRead(R)== 1));
+    digitalWrite(13, HIGH);
+  	digitalWrite(12, LOW);
+  	digitalWrite(9, LOW);
+ 	digitalWrite(8, HIGH);
+ 	analogWrite(11, 80);
+ 	analogWrite(10, 80);
+  
+  // if the line is beyond all sensors - go backwards to try to find the center again
+  if((digitalRead(L) == 1) && (digitalRead(M) == 1) && (digitalRead(R)== 1));
+    digitalWrite(13, LOW);
+  	digitalWrite(12, HIGH);
+  	digitalWrite(9, LOW);
+  	digitalWrite(8, HIGH);
+  	analogWrite(11, 60);
+  	analogWrite(10, 60);
+  
+  // If the line is on the right, go left
+  if((digitalRead(L) == 0) && (digitalRead(M) == 1) && (digitalRead(R)== 1));
+   	digitalWrite(13, HIGH);
+  	digitalWrite(12, LOW);
+  	digitalWrite(9, LOW);
+  	digitalWrite(8, HIGH);
+  	analogWrite(11, 70);
+  	analogWrite(10, 50);
+ 
+  // If the line is on the left, go right
+  if((digitalRead(L) == 1) && (digitalRead(M) == 1) && (digitalRead(R)== 0));
+    digitalWrite(13, HIGH);
+  	digitalWrite(12, LOW);
+  	digitalWrite(9, LOW);
+  	digitalWrite(8, HIGH);
+  	analogWrite(11, 50);
+  	analogWrite(10, 70);
+ 
+  // If the line isn't between the sensors
+  if((digitalRead(L) == 0) && (digitalRead(M) == 0) && (digitalRead(R)== 0));
+    digitalWrite(13, LOW);
+  	digitalWrite(12, LOW);
+  	digitalWrite(9, LOW);
+  	digitalWrite(8, LOW);
+  	analogWrite(11, 0);
+  	analogWrite(10, 0);
+}
